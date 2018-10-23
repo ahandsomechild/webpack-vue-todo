@@ -1,6 +1,6 @@
 #   webpack+vue学习记录
 
-##  Day one: 一个最简单的webpack项目
+##  Day1: 一个最简单的webpack项目
 
 我们新建一个TODO项目，初始化命令：
 
@@ -137,7 +137,7 @@
 
 继续报错，保持微笑，这里提示的意思应该是样式需要loader来处理它，矫情！于是百度了一下，加了这个
     
-    
+
     'use strict'
     const path = require('path')
     const VueLoaderPlugin = require('vue-loader/lib/plugin')
@@ -172,4 +172,67 @@
 
 好，第一个课程完美，希望大家跟着视频学习的时候有耐心一点，因为老师和你的环境和用的版本毕竟不一样，仔细研究一下报错，耐心解决，感觉在这个过程里收获比较大。哈哈！
 
+##  Day2: 常用的loader配置
+
+webpack可以加载前端所能用到的所有静态资源，配置loader,具体有很多
+
+    {
+        test: /\.css$/,
+        use:['vue-style-loader','css-loader']
+    }
     
+这是昨天为了解决报错加的配置，这里为什么使用use,而不是loader.
+
+因为对于样式有不同的处理方式，因此使用use,采用数组的格式加载不同的laoder,此处style-loader用来处理html中的style样式，而css-loader主要用来处理css样式文件。
+    
+    
+     {
+         test:/\.(gif|jpg|jpeg|png|svg)$/,
+         use:[
+             {
+                 loader:'url-loader',
+                 options:{
+                     limit: 1024,
+                     name: '[name]-thm.[ext]'
+                 }
+             }
+         ]
+     }
+loader是可以配置一些选项的，使用options来配置
+图片文件的处理，url-loader将图片转换为base64代码，写在js内容里面，而不用生成一个文件，这对于小一点的图片文件是很友好的，这里限制了图片的大小，url-loader依赖于file-loadaer,它判断文件大小如果小于1024，就执行转译。可通过name自行配置图片编译后的名称后缀。
+
+配置后我们需要安装一下用到的依赖
+    
+    npm i url-loader file-loader
+    
+在配置好了处理样式和图片的loader之后，我们创建assets文件夹，放入一些图片和一个样式文件，在index.js中导入
+
+    import './assets/style/base.css'
+    import './assets/img/hh.jpg'
+    
+然后打包，我们可以看一下打包后生成的文件，哈哈
+
+生成的图片果然带上了'-thm'后缀，样式也在bundle.js中。
+
+
+css预处理器——模块化写css,为了实现css预处理，我们配置styl(就是一种写法很随便的,和less,sass差不多的css预处理器)
+
+    {
+        test: /\.styl/,
+        use:[
+            'style-loader',
+            'css-loader',
+            'stylus-loader'
+        ]
+    }
+
+然后我们可以添加一个styl文件，并且将它导入在index.js中
+
+不要忘了安装loader,stylus-loader依赖于stylus，都要装，不然会报错
+
+    npm i sytle-loader stylus-loader stylus
+    
+再次打包，我们写的styl样式就被写好放进bundle.js中啦。
+
+未来还有很多loader等着我们去发现。多积累。
+
