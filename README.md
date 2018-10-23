@@ -137,6 +137,7 @@
 
 继续报错，保持微笑，这里提示的意思应该是样式需要loader来处理它，矫情！于是百度了一下，加了这个
     
+    
     'use strict'
     const path = require('path')
     const VueLoaderPlugin = require('vue-loader/lib/plugin')
