@@ -236,3 +236,76 @@ css预处理器——模块化写css,为了实现css预处理，我们配置styl
 
 未来还有很多loader等着我们去发现。多积累。
 
+## Day3 webpack-dev-server 的配置和使用
+
+webpack-dev-server 是webpack的一个包，==专门用在开发环境==，首先我们进行安装
+
+    npm i webpack-dev-server
+
+然后我们做一些配置去适应webpack-dev-server的开发模式
+
+首先我们在package.json中增加一行dev命令
+    
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build": "cross-env NODE_ENV=production webpack --config webpack.config.js",
+        "dev": "cross-env NODE_ENV=development webpack-dev-server --config webpack.config.js"
+    }
+    
+这里使用了cross-env，为了解决跨平台的问题，在windows中我们可能要  set NODE_ENV=development，所以在安装了cross-env之后，我们就可以采用以上写法。
+
+然后我们回到webpack.config.js，在其中作出如下改变
+
+1.定义一个isDev来接收运行时的NODE_ENV值，判断是处于开发环境还是生产环境，
+
+2.在原来的配置加增加一些配置，新增两个插件
+
+    new webpack.DefinePlugin({
+         'process.env':{
+             NODE_ENV: isDev ? '"development"':'"production"'
+         }
+    }),
+    new HTMLPlugin()
+    
+需要进行引入
+
+    const HTMLPlugin = require('html-webpack-plugin')
+    const webpack = require('webpack')
+    
+and
+
+    npm i html-webpack-plugin
+
+说实话这个具体干什么的我忘了，后期补
+
+3.如果是开发环境，我们需要去添加一些配置项
+
+    if(isDev){
+        config.devtool = '#cheap-module-eval-source-map'
+        config.devServer = {
+            port: 8000,
+            host: '0.0.0.0',
+            overlay:{
+                errors:true
+            },
+            open: true,
+            hot: true
+        }
+        config.plugins.push(
+            new webpack.HotModuleReplacementPlugin(),
+            new webpack.NoEmitOnErrorsPlugin()
+        )
+    }
+    
+我们可以看到有端口号，host地址，其中----》overlay用于处理一些异常，open项目运行成功会自动打开窗口，但如果webpack配置被更改，也会弹出新窗口，酌情使用。
+
+hot局部更新（我理解的），就是我做什么修改，会之刷新那一部分代码，而不是整个项目刷新；
+
+为了使用hot,我们push了两个插件HotModuleReplacementPlugin、NoEmitOnErrorsPlugin
+
+为了优化还是干嘛的，我们还加了一行devtool
+
+以上内容虽然跑起来了，但是还是很懵逼啊，后期查阅资料再补充知识点吧！
+
+微笑~
+
