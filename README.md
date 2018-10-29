@@ -236,6 +236,7 @@ css预处理器——模块化写css,为了实现css预处理，我们配置styl
 
 未来还有很多loader等着我们去发现。多积累。
 
+
 ## Day3 webpack-dev-server 的配置和使用
 
 webpack-dev-server 是webpack的一个包，==专门用在开发环境==，首先我们进行安装
@@ -309,3 +310,85 @@ hot局部更新（我理解的），就是我做什么修改，会之刷新那�
 
 微笑~
 
+`
+## Day4 vue2核心知识介绍
+
+#### API重点
+
+1.数据绑定
+
+2.vue文件开发方式
+
+3.render方法
+
+    template -> js中的render方法
+    
+    render(){
+        createElement()创建节点
+    }
+    
+4.生命周期方法
+
+5.computed
+
+ps:vue的api重点不止这些，这些也不能说是最重要的，后期会总结一下vue的重点，希望大家多多指正！
+
+#### vue的jsx写法以及postcss
+
+针对todo项目做一些前期的优化工作，对于css做一些配置处理
+
+    npm i post-css-loader autoprefixer babel-loader babel-core
+
+autoprefixer ---- 样式浏览器兼容的前缀自动添加
+
+增加.babelrc和postcss.config.js配置文件
+    
+ postcss.config.js   
+
+    const autoprefixer = require('autoprefixer')
+
+    module.exports = {
+        plugins:[
+            autoprefixer()
+        ]
+    }
+
+.babelrc   
+
+    {
+        "presets": [
+            "env"
+        ],
+        "plugins":[
+            "transform-vue-jsx"
+        ]
+    }
+    
+顾名思义===将vue文件转换成jsx代码
+    
+不要忘了进行配置
+
+    npm i babel-preset-env babel-plugin-transform-vue-jsx
+    
+然后在webpack里面进行配置
+
+    {
+        test: /\.jsx$/,
+        loader: 'babel-loader'
+    },
+    {
+        test: /\.styl/,
+        use:[
+            'style-loader',
+            'css-loader',
+            {       //这里，进行添加
+                loader:'postcss-loader',
+                options: {
+                    sourceMap: true
+                }
+            },
+            'stylus-loader',
+        ]
+    }
+    
+然后运行一下项目，完美！
