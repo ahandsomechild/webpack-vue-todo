@@ -5,7 +5,7 @@
           <Icon type="ios-search" slot="prefix" />
       </Input>
     </div>
-    <p v-if="noteList.length>0" v-for="(item,index) in noteList" :key="index">
+    <p @click="setActive(index)" v-if="noteList.length>0" v-for="(item,index) in noteList" :key="index">
       {{item.title}}
     </p>
   </div>
@@ -19,7 +19,12 @@ export default {
   },
   computed:{
     noteList(){
-      return this.$store.state.list.notelist
+      return this.$store.state.notelist
+    }
+  },
+  methods:{
+    setActive(index){
+      this.$store.commit('SET_ACTIVE',this.noteList[index])
     }
   }
 }
@@ -42,6 +47,7 @@ export default {
     height:40px;
     font-size:15px;
     padding:10px;
+    cursor pointer
   }
   p:nth-child(2n){
     background #f2f2f2;

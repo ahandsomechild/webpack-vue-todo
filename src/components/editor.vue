@@ -1,9 +1,9 @@
 <template>
   <div id="editor">
     <div>
-      <input size="large" type="text" :value="activeNote.title"/>
+      <input size="large" @input="editTitle" type="text" :value="activeNote.title"/>
     </div>
-    <textarea  class="editor"></textarea>
+    <textarea @input="editNote" :value="activeNote.content" class="editor" ></textarea>
   </div>
 </template>
 
@@ -19,12 +19,20 @@ export default {
       'activeNote'
     ]),
     activeNote(){
-      return this.$store.state.list.activeNote
+      return this.$store.state.activeNote
     }
   },
   watch:{
     activeNote(val){
       console.log(val)
+    }
+  },
+  methods:{
+    editTitle(e){
+      this.$store.commit('EDIT_TITLE',e.target.value)
+    },
+    editNote(e){
+      this.$store.commit('EDIT_NOTE',e.target.value)
     }
   }
 }

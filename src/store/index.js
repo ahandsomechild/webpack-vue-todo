@@ -1,12 +1,36 @@
-import Vuex from 'vuex'
 import Vue from 'vue'
+import Vuex from 'vuex'
 
-import list from './vuex/note_list'
+// import list from './vuex/note_list'
 
 Vue.use(Vuex)
 
-export default new Vuex.Store({
-  modules:{
-    list
+const state = {
+  notelist:[],
+  activeNote:{}
+}
+
+const mutations  = {
+  ADD_NOTE(state){
+    const newNote ={
+      title:'自定义标题',
+      content:'',
+    }
+    state.notelist.push(newNote)
+    state.activeNote = newNote
+  },
+  SET_ACTIVE(state,text){
+    state.activeNote = text;
+  },
+  EDIT_TITLE(state,text){
+    state.activeNote.title = text
+  },
+  EDIT_NOTE(state,text){
+    state.activeNote.content = text
   }
+}
+
+export default new Vuex.Store({
+  state,
+  mutations
 })
