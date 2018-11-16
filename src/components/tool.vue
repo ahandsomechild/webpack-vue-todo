@@ -4,13 +4,13 @@
       <Icon @click="add" type="md-add"  size="27"/>
     </div>
     <div class="icon">
-      <Icon type="md-list" size="27"/>
+      <Icon type="md-list" size="27" @click="changetab('list')"/>
     </div>
     <div class="icon">
-      <Icon type="md-star" size="27"/>
+      <Icon type="md-star" size="27" @click="changetab('favorite')"/>
     </div>
     <div class="icon">
-      <Icon type="ios-trash" size="27"/>
+      <Icon type="ios-trash" size="27" @click="changetab('trash')"/>
     </div>
   </div>
 </template>
@@ -24,8 +24,10 @@ export default {
     ...mapState(['notelist'])
   },
   methods:{
+    changetab(text){
+      this.$store.commit('SWITCH_TAB',text)
+    },
     add(){
-      
       this.$store.commit('ADD_NOTE')
     }
   }

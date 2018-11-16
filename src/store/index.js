@@ -7,6 +7,7 @@ import createPersistedState from 'vuex-persistedstate'
 Vue.use(Vuex)
 
 const state = {
+  currentTab:'',
   notelist:[],
   activeNote:{}
 }
@@ -21,6 +22,9 @@ const mutations  = {
     }
     state.notelist.push(newNote)
     state.activeNote = newNote
+  },
+  SWITCH_TAB(state,text){
+    state.currentTab = text;
   },
   SET_ACTIVE(state,text){
     state.activeNote = text;
