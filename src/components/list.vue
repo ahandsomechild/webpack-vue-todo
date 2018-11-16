@@ -5,8 +5,13 @@
           <Icon type="ios-search" slot="prefix" />
       </Input>
     </div>
-    <p @click="setActive(index)" v-if="noteList.length>0" v-for="(item,index) in noteList" :key="index">
-      {{item.title}}
+    <p :class="{active:activeNote == item}" @click="setActive(index)" v-if="noteList.length>0&&!item.trash" v-for="(item,index) in noteList" :key="index">
+      <span class="title">{{item.title}}</span>
+      <span class="multiple">
+        <Icon v-if="!item.favorite" type="ios-star-outline" @click="setfavarite(index)"></Icon>
+        <Icon v-if="item.favorite" type="ios-star" />
+        <Icon v-if="!item.trash" type="ios-trash-outline" @click="settrash(index)"></Icon>
+      </span>
     </p>
   </div>
 </template>
@@ -14,16 +19,26 @@
 export default {
   data(){
     return {
-
+      active:-1
     }
   },
   computed:{
     noteList(){
       return this.$store.state.notelist
+    },
+    activeNote(){
+      return this.$store.state.activeNote
     }
   },
   methods:{
+    setfavarite(index){
+      this.noteList[index].favorite = true;
+    },
+    settrash(index){
+      this.noteList[index].trash = true
+    },
     setActive(index){
+      this.active = index
       this.$store.commit('SET_ACTIVE',this.noteList[index])
     }
   }
@@ -39,18 +54,30 @@ export default {
   float left
   .search{
     width:100%;
-    padding:16px 10px;
+    padding:16px 16px;
   }
   p{
     display block;
     width:100%;
     height:40px;
+    line-height 40px
     font-size:15px;
-    padding:10px;
+    padding:0 10px 0 16px;
     cursor pointer
   }
-  p:nth-child(2n){
+  .active,p:hover{
     background #f2f2f2;
+  }
+  .title{
+    display inline-block
+    width:160px;
+    overflow:hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .multiple{
+    width:20%;
+    float right
   }
 
 }

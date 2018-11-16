@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import createPersistedState from 'vuex-persistedstate'
 
 // import list from './vuex/note_list'
 
@@ -15,6 +16,8 @@ const mutations  = {
     const newNote ={
       title:'自定义标题',
       content:'',
+      favorite:false,
+      trash:false
     }
     state.notelist.push(newNote)
     state.activeNote = newNote
@@ -32,5 +35,6 @@ const mutations  = {
 
 export default new Vuex.Store({
   state,
-  mutations
+  mutations,
+  plugins:[createPersistedState()]
 })
