@@ -399,8 +399,10 @@ autoprefixer ---- 样式浏览器兼容的前缀自动添加
 
 功能点：
 
-- 新建note
+- 新建note 
 - 编辑note
 - 删除note
 - 标记重要note
+
+
 

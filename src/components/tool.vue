@@ -35,7 +35,7 @@ export default {
 </script>
 <style lang="stylus" scoped>
 #tool-bar{
-  width:5%;
+  width:50px;
   padding-top:20px;
   background: #fff;
   text-align: center;

@@ -1,7 +1,7 @@
 <template>
   <div id="editor">
     <div>
-      <input size="large" @input="editTitle" type="text" :value="activeNote.title"/>
+      <input :disabled="isEmptyObject()"   size="large" @input="editTitle" type="text" :value="activeNote.title"/>
     </div>
     <textarea @input="editNote" :value="activeNote.content" class="editor" ></textarea>
   </div>
@@ -28,6 +28,12 @@ export default {
     }
   },
   methods:{
+    isEmptyObject () {
+			for (let key in this.activeNote) {
+				return false
+			}
+			return true
+		},
     editTitle(e){
       this.$store.commit('EDIT_TITLE',e.target.value)
     },
@@ -40,21 +46,26 @@ export default {
 
 <style lang="stylus" scoped>
 #editor{
-  float left
+  flex:1;
   padding: 0px 16px;
   .editor{
     resize: none;
     outline: none;
-    flex: 1;
+    width:100%;
     border: none;
     font-size: 18px;
   }
   input{
     border:none;
+    width 100%
     font-size:20px;
     border-bottom:1px solid #eaeaea;
     padding:20px 10px 10px;
     outline none
+  }
+  textarea{
+    width:100%;
+    padding:10px 10px 10px;
   }
 }
 </style>
