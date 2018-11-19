@@ -8,22 +8,22 @@
     <p :class="{active:activeNote == item}" @click="setActive(index)" v-if="noteList.length>0&&!item.trash&&cur == 'list'" v-for="(item,index) in noteList" :key="index">
       <span class="title">{{item.title}}</span>
       <span class="multiple">
-        <Icon v-if="!item.favorite" type="ios-star-outline" @click="setfavarite(index)"></Icon>
-        <Icon v-if="item.favorite" type="ios-star"  @click="setfavarite(index)"/>
-        <Icon v-if="!item.trash" type="ios-trash-outline" @click="settrash(index)"></Icon>
+        <Icon v-if="!item.favorite" type="ios-star-outline" @click.stop="setfavarite(index)"></Icon>
+        <Icon v-if="item.favorite" type="ios-star"  @click.stop="setfavarite(index)"/>
+        <Icon v-if="!item.trash" type="ios-trash-outline" @click.stop="settrash(index)"></Icon>
       </span>
     </p>
-    <p :class="{active:activeNote == item}" @click="setActive(index)" v-if="noteList.length>0&&!item.trash&&item.favorite&&cur=='favorite'" v-for="(item,index) in noteList" :key="index">
+    <p :class="{active:activeNote == item}" @click.stop="setActive(index)" v-if="noteList.length>0&&!item.trash&&item.favorite&&cur=='favorite'" v-for="(item,index) in noteList" :key="index">
       <span class="title">{{item.title}}</span>
       <span class="multiple">
-        <Icon v-if="item.favorite" type="ios-star" @click="setfavarite(index)"/>
-        <Icon v-if="!item.trash" type="ios-trash-outline" @click="settrash(index)"></Icon>
+        <Icon v-if="item.favorite" type="ios-star" @click.stop="setfavarite(index)"/>
+        <Icon v-if="!item.trash" type="ios-trash-outline" @click.stop="settrash(index)"></Icon>
       </span>
     </p>
-    <p :class="{active:activeNote == item}" @click="setActive(index)" v-if="noteList.length>0&&item.trash&&cur=='trash'" v-for="(item,index) in noteList" :key="index">
+    <p :class="{active:activeNote == item}" @click.stop="setActive(index)" v-if="noteList.length>0&&item.trash&&cur=='trash'" v-for="(item,index) in noteList" :key="index">
       <span class="title">{{item.title}}</span>
       <span class="multiple">
-        <Icon type="md-return-left" @click="settrash(index)"/>
+        <Icon type="md-return-left" @click.stop="settrash(index)"/>
       </span>
     </p>
   </div>
@@ -52,6 +52,16 @@ export default {
     },
     settrash(index){
       this.noteList[index].trash = !this.noteList[index].trash
+      var flag = true;
+      this.noteList.map(val => {
+        console.log(val.trash)
+        if(val.trash == false){
+          flag = false;
+        }
+      })
+      if(flag == true){
+        this.$store.commit('SET_ACTIVE',{})
+      }
     },
     setActive(index){
       this.active = index
