@@ -401,8 +401,132 @@ autoprefixer ---- 样式浏览器兼容的前缀自动添加
 
 - 新建note 
 - 编辑note
-- 删除note
+- 清理note（即放入回收站）
 - 标记重要note
 
+项目中使用的一些有关vue的知识点
 
+- vuex 
+    
+    这里不具体说他是怎么用的，网上可以找到很详细的教程。我在入门的时候，一直很奇怪这个状态管理到底是用来干嘛，到底有什么作用。所以刚接触web端vue项目的时候，基本不会用它。但是用了以后真的发现vuex如果写的清晰是完全可以存储数据的，比如在一个项目里如果有一些信息是在不同的地方都要用到的，而且在不同的地方都要改变，那么与其在不同的地方声明调用获取，还不如一次性声明，定义一个mutation去更改它的状态，而将所有异步的操作都放在action里面，与服务端交互。
+
+    这个项目的vuex文件我只写了一个因为很简单：一个当前激活的笔记activenote，和一个存储所有笔记的数组，以及一个记录分类栏的变量。而对笔记的操作将通过mutation中更新。
+    
+    这个时候我们无需费心去考虑兄弟组件的交互，只要我们对vuex中的值进行监听(computed)，那么当state改变时，页面也会自动渲染。
+    
+-  vuex-persistedstate
+    
+    vuex虽然好用，但是一刷新就会被清除，所以在我原本的项目中，一般会使用vue-cookie进行存储。而vuex-persistedstate则很好的解决了这个问题，这个插件内部对数据进行了localstorage的存储，因此就不需要我们进行存储了。撒花~
+
+- 一个布局的积累
+    
+    一列宽度固定，一列宽度自适应（项目中左边两列都固定可看做一列）
+
+    我的解决方法：
+        
+        <div class="parent">
+          <div class="left">
+            <p>left</p>
+          </div>
+          <div class="right">
+            <p>right</p>
+            <p>right</p>
+          </div>
+        </div>
+        
+        <style>
+          .parent {
+            display: flex;
+          }
+          .left {
+            width: 100px;
+            margin-left: 20px;
+          }
+          .right {
+            flex: 1;
+          }
+        </style>
+        
+另外的一些解决方法：
+
+    <div class="parent">
+      <div class="left">
+        <p>left</p>
+      </div>
+      <div class="right">
+        <p>right</p>
+        <p>right</p>
+      </div>
+    </div>
+    
+    <style>
+      .left {
+        float: left;
+        width: 100px;
+      }
+      .right {
+        margin-left: 100px
+        /*间距可再加入 margin-left */
+      }
+    </style>
+
+-----
+
+    <div class="parent">
+      <div class="left">
+        <p>left</p>
+      </div>
+      <div class="right">
+        <p>right</p>
+        <p>right</p>
+      </div>
+    </div>
+    
+    <style>
+      .left {
+        float: left;
+        width: 100px;
+      }
+      .right {
+        overflow: hidden;
+      }
+    </style>
+
+----
+    
+    <div class="parent">
+      <div class="left">
+        <p>left</p>
+      </div>
+      <div class="right">
+        <p>right</p>
+        <p>right</p>
+      </div>
+    </div>
+    
+    <style>
+      .parent {
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+      }
+      .left {
+        display: table-cell;
+        width: 100px;
+      }
+      .right {
+        display: table-cell;
+        /*宽度为剩余宽度*/
+      }
+    </style>
+
+- vue中点击阻止冒泡事件产生
+
+    点击子元素阻止父元素的点击事件 ---》 @click.stop
+    
+
+
+## 项目待开发功能：
+    
+    笔记搜索
 

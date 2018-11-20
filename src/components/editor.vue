@@ -1,9 +1,9 @@
 <template>
   <div id="editor">
     <div>
-      <input :disabled="isEmptyObject()"   size="large" @input="editTitle" type="text" :value="activeNote.title"/>
+      <input :disabled="isEmptyObject()" size="large" @input="editTitle" type="text" :value="activeNote.title"/>
     </div>
-    <textarea @input="editNote" :value="activeNote.content" class="editor" ></textarea>
+    <textarea :disabled="isEmptyObject()" @input="editNote" :value="activeNote.content" class="editor" ></textarea>
   </div>
 </template>
 
@@ -20,11 +20,6 @@ export default {
     ]),
     activeNote(){
       return this.$store.state.activeNote
-    }
-  },
-  watch:{
-    activeNote(val){
-      console.log(val)
     }
   },
   methods:{
