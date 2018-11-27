@@ -29,6 +29,7 @@ export default {
     },
     add(){
       this.$store.commit('ADD_NOTE')
+      this.$store.commit('SWITCH_TAB','list')
     }
   }
 }

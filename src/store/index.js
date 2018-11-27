@@ -18,7 +18,8 @@ const mutations  = {
       title:'自定义标题',
       content:'',
       favorite:false,
-      trash:false
+      trash:false,
+      result:[]
     }
     state.notelist.push(newNote)
     state.activeNote = newNote
@@ -34,6 +35,9 @@ const mutations  = {
   },
   EDIT_NOTE(state,text){
     state.activeNote.content = text
+  },
+  SEARCH(state,text){
+    state.result = text;
   }
 }
 

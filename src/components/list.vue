@@ -1,9 +1,10 @@
 <template>
   <div id="list">
     <div class="search">
-      <Input placeholder="搜索...">
-          <Icon type="ios-search" slot="prefix" />
-      </Input>
+      NOTE&nbsp;&nbsp;|&nbsp;&nbsp;JULY
+      <!-- <Input placeholder="搜索..." v-model="key" @keyup.enter.native="search">
+          <Icon type="ios-search" @click="search" slot="prefix" />
+      </Input> -->
     </div>
     <p :class="{active:activeNote == item}" @click="setActive(index)" v-if="noteList.length>0&&!item.trash&&cur == 'list'" v-for="(item,index) in noteList" :key="index">
       <span class="title">{{item.title}}</span>
@@ -33,6 +34,7 @@ export default {
   data(){
     return {
       active:-1,
+      key:''
     }
   },
   computed:{
@@ -66,6 +68,23 @@ export default {
     setActive(index){
       this.active = index
       this.$store.commit('SET_ACTIVE',this.noteList[index])
+    },
+    search(){
+      if(this.key!=''){
+        if(this.cur == 'list'){
+          var list = [];
+          this.noteList.map(item=>{
+            if(item.title.indexOf(this.key)!= -1||item.content.indexOf(this.key)!= -1){
+              list.push(item);
+            }
+          })
+          
+        }else if(this.cur == 'favorite'){
+
+        }else{
+
+        }
+      }
     }
   }
 }
@@ -81,6 +100,8 @@ export default {
   .search{
     width:100%;
     padding:16px 16px;
+    text-align center;
+    font-size:20px;
   }
   p{
     display block;
